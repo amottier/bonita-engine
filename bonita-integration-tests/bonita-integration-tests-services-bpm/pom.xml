@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>bonita-integration-tests</artifactId>
 		<groupId>org.bonitasoft.engine.test</groupId>
+		<artifactId>bonita-integration-tests</artifactId>
 		<version>6.4.0-SNAPSHOT</version>
 	</parent>
 
@@ -14,10 +14,19 @@
     <name>Bonita Service BPM Integration Tests</name>
 
 	<properties>
-		<bonita.home>${project.build.directory}/home</bonita.home>
+		<bonita.home>${project.build.directory}/test-classes/home</bonita.home>
 	</properties>
 
 	<dependencies>
+    
+        <dependency>
+            <groupId>org.bonitasoft.engine.test</groupId>
+            <artifactId>bonita-integration-tests-services</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <type>test-jar</type>
+        </dependency>
+    
 		<!-- Actor Mapping -->
 		<dependency>
 			<groupId>org.bonitasoft.engine.core.actor.mapping</groupId>
@@ -409,7 +418,7 @@
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Theme -->
 		<dependency>
 			<groupId>org.bonitasoft.engine.theme</groupId>
@@ -613,7 +622,7 @@
 						</goals>
 						<configuration>
 							<target name="copy-bpm-test-conf">
-								<copy todir="${project.build.directory}/conf" overwrite="true">
+								<copy todir="${project.build.directory}/test-classes/conf" overwrite="true">
 									<fileset dir="${basedir}/src/test/resources/conf" />
 								</copy>
 							</target>
@@ -639,8 +648,14 @@
 									<version>${project.version}</version>
 									<type>zip</type>
 								</artifactItem>
+                                <artifactItem>
+                                    <groupId>org.bonitasoft.engine</groupId>
+                                    <artifactId>bonita-sql</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>zip</type>
+                                </artifactItem>
 							</artifactItems>
-							<outputDirectory>${project.build.directory}</outputDirectory>
+							<outputDirectory>${project.build.directory}/test-classes</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -657,7 +672,7 @@
 					</properties>
 					<systemPropertyVariables>
 						<bonita.home>${bonita.home}</bonita.home>
-						<bonita.services.folder>${project.build.directory}/conf</bonita.services.folder>
+						<bonita.services.folder>${project.build.directory}/test-classes/conf</bonita.services.folder>
 					</systemPropertyVariables>
 					<includes>
 						<include>org/bonitasoft/engine/bpm/test/AllBPMTestsWithJNDI.java</include>
