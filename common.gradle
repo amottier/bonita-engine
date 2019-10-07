@@ -29,8 +29,10 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco'
     apply plugin: 'maven-publish'
     apply plugin: 'bonita-tests'
+    apply plugin: 'org.sonarqube'
 
     repositories {
         mavenLocal()
@@ -55,6 +57,18 @@ subprojects {
             description "List runtime dependencies for a specified configuration"
             configurations = [project.configurations.runtimeClasspath]
         }
+    }
 
+    dependencies {
+        testImplementation "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+    }
+    
+    
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            html.enabled false
+            csv.enabled false
+        }
     }
 }
